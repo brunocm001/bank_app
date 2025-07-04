@@ -21,6 +21,7 @@ public class SecurityConfig {
 
     private final JwtRequestFilter jwtRequestFilter;
     private final UserDetailsService userDetailsService;
+    
 
     public SecurityConfig(JwtRequestFilter jwtRequestFilter, UserDetailsService userDetailsService) {
         this.jwtRequestFilter = jwtRequestFilter;
@@ -32,6 +33,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/user").authenticated()
